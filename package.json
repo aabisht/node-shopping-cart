@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Build a shopping cart application where users can add items to their cart, update item quantities, and remove items.",
   "main": "src/server.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon --experimental-json-modules --exec babel-node src/server.js"
   },
