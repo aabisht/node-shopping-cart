@@ -11,18 +11,34 @@ const generateToken = (user) => {
 // User Registration
 export const registerUser = async (request, response) => {
   try {
-    const { username, email, password } = request.body;
-    const existingUser = await User.findOne({ email });
+    const { firstName, lastName, username, email, password } = request.body;
 
-    if (existingUser) {
+    if (!username)
+      return response.status(400).json({ message: "Username is required." });
+    if (!email)
+      return response.status(400).json({ message: "User email is required." });
+    if (!password)
+      return response
+        .status(400)
+        .json({ message: "User password is required." });
+
+    const existingUsername = await User.findOne({ username });
+    const existingUserEmail = await User.findOne({ email });
+
+    if (existingUsername || existingUserEmail)
       return response.status(400).json({ message: "User already exixt." });
-    }
 
-    const newUser = new User({ username, email, password });
+    const newUser = new User({
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+    });
+
     await newUser.save();
     response.status(201).json({ message: "User registered successfully!" });
   } catch (error) {
-    console.error("Error in registerUser:", error);
     response.status(500).json({ message: "Internal Server Error", error });
   }
 };
@@ -30,13 +46,21 @@ export const registerUser = async (request, response) => {
 // User Login
 export const loginUser = async (request, response) => {
   try {
-    const { email, password } = request.body;
-    const user = await User.findOne({ email });
+    const { username, password } = request.body;
+
+    if (!username)
+      return response.status(400).json({ message: "Username is required." });
+    if (!password)
+      return response
+        .status(400)
+        .json({ message: "User password is required." });
+
+    const user = await User.findOne({ username });
 
     if (!user || !(await user.comparePassword(password))) {
       return response
         .status(401)
-        .json({ message: "Invalid email or password" });
+        .json({ message: "Invalid username or password" });
     }
 
     const token = generateToken(user);
