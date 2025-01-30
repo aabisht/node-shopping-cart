@@ -1,10 +1,12 @@
 import Product from "../models/product.js";
+import { paginate } from "../utils/paginate.js";
 
 // Get list of all products
 export const getProducts = async (request, response) => {
   try {
+    const pageNumber = request.query.page || 1;
     const products = await Product.find();
-    response.json(products);
+    response.json(paginate(products, pageNumber, 10));
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }
@@ -36,7 +38,8 @@ export const getProduct = async (request, response) => {
 // Add a New Product
 export const addProduct = async (request, response) => {
   try {
-    const { sku, name, image, price, description, stocks } = request.body;
+    const { sku, name, image, price, description, category, stocks } =
+      request.body;
 
     if (!sku)
       return response
@@ -61,10 +64,10 @@ export const addProduct = async (request, response) => {
 
     const product = await Product.findOne({ sku });
 
-    if (!product)
+    if (product)
       return response
         .status(400)
-        .json({ message: `Product with SKU: ${sku} not found.` });
+        .json({ message: `Product with SKU: ${sku} already present.` });
 
     const newProduct = new Product({
       sku,
@@ -72,13 +75,14 @@ export const addProduct = async (request, response) => {
       image,
       price,
       description,
+      category,
       stocks,
     });
 
     await newProduct.save();
     response
       .status(201)
-      .json({ message: "User registered successfully!", newProduct });
+      .json({ message: "Product added successfully!", newProduct });
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }

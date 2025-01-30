@@ -1,5 +1,6 @@
 import Cart from "../models/cart.js";
 import Product from "../models/product.js";
+import { io } from "../server.js";
 
 const getTotalPrice = (items) => {
   return items.reduce(
@@ -54,6 +55,10 @@ export const addToCart = async (request, response) => {
     cart.totalPrice = getTotalPrice(cart.items);
 
     await cart.save();
+
+    // Emit cart update to all connected clients
+    io.emit("cartUpdated", cart);
+
     response.json(cart);
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
@@ -77,6 +82,10 @@ export const updateCart = async (request, response) => {
 
     cart.totalPrice = getTotalPrice(cart.items);
     await cart.save();
+
+    // Emit cart update to all connected clients
+    io.emit("cartUpdated", cart);
+
     response.json(cart);
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
@@ -94,6 +103,10 @@ export const removeFromCart = async (request, response) => {
     cart.totalPrice = getTotalPrice(cart.items);
 
     await cart.save();
+
+    // Emit cart update to all connected clients
+    io.emit("cartUpdated", cart);
+
     response.json(cart);
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
