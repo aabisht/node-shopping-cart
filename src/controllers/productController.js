@@ -6,7 +6,7 @@ export const getProducts = async (request, response) => {
   try {
     const pageNumber = request.query.page || 1;
     const products = await Product.find();
-    response.json(paginate(products, pageNumber, 10));
+    response.status(200).json(paginate(products, pageNumber, 10));
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }
@@ -15,7 +15,7 @@ export const getProducts = async (request, response) => {
 // Get a product using SKU code
 export const getProduct = async (request, response) => {
   try {
-    const { sku } = request.body;
+    const { sku } = request.params;
 
     if (!sku)
       return response
@@ -29,7 +29,7 @@ export const getProduct = async (request, response) => {
         .status(400)
         .json({ message: `Product with SKU: ${sku} not found.` });
 
-    response.json(product);
+    response.status(200).json(product);
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }
@@ -81,7 +81,7 @@ export const addProduct = async (request, response) => {
 
     await newProduct.save();
     response
-      .status(201)
+      .status(200)
       .json({ message: "Product added successfully!", newProduct });
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });

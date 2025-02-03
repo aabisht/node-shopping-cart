@@ -1,6 +1,11 @@
 import { mongoose } from "mongoose";
 
 const connectDB = async () => {
+  if (mongoose.connection.readyState >= 1) {
+    console.log("Already connected to MongoDB");
+    return;
+  }
+
   try {
     const connection = await mongoose.connect(process.env.MONGO_URI, {
       autoIndex: true, // Automatically build indexes

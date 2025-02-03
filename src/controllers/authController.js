@@ -3,9 +3,13 @@ import User from "../models/user.js";
 
 // Generate token for user
 const generateToken = (user) => {
-  return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
-  });
+  return jwt.sign(
+    { username: user.username, email: user.email },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "7d",
+    },
+  );
 };
 
 // User Registration
@@ -37,7 +41,7 @@ export const registerUser = async (request, response) => {
     });
 
     await newUser.save();
-    response.status(201).json({ message: "User registered successfully!" });
+    response.status(200).json({ message: "User registered successfully!" });
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }
@@ -59,13 +63,13 @@ export const loginUser = async (request, response) => {
 
     if (!user || !(await user.comparePassword(password))) {
       return response
-        .status(401)
+        .status(400)
         .json({ message: "Invalid username or password" });
     }
 
     const token = generateToken(user);
 
-    response.json({ message: "Login Successful", token });
+    response.status(200).json({ message: "Login Successful", token });
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }

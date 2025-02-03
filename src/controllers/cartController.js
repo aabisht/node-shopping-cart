@@ -31,7 +31,7 @@ export const addToCart = async (request, response) => {
     let cart = await Cart.findOne({ user: request.user.username });
     if (!cart) {
       cart = new Cart({
-        user: request.user.username,
+        username: request.user.username,
         items: [],
         totalPrice: 0,
       });
@@ -43,12 +43,12 @@ export const addToCart = async (request, response) => {
 
     // Check for existing item
     const existingItem = cart.items.find(
-      (item) => item.productSKU === productSKU,
+      (item) => item.product.sku === productSKU,
     );
     if (existingItem) {
       existingItem.quantity += quantity;
     } else {
-      cart.items.push({ productSKU, quantity });
+      cart.items.push({ product, quantity });
     }
 
     // Calcuate total price of products in cart
