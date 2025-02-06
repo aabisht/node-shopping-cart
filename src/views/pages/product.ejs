@@ -1,0 +1,52 @@
+<section class="py-5">
+  <div class="container my-5">
+    <div class="row gx-4 gx-lg-5 align-items-center">
+      <div class="col-md-6">
+        <img
+          class="card-img-top mb-5 mb-md-0 img-fluid"
+          src="<%= product.image %>"
+          alt="<%= product.name %>"
+          width="624"
+          height="832"
+        />
+      </div>
+      <div class="col-md-6">
+        <div class="small mb-1">SKU: <%= product.sku %></div>
+        <h1 class="display-5 fw-bolder"><%= product.name.split(' - ')[1] %></h1>
+        <h2 class="h6 text-secondary"><%= product.name.split(' - ')[0] %></h2>
+        <div class="fs-5 mb-5">
+          <span class="d-inline-flex align-items-center">
+            <span class="material-symbols-outlined fs-5"> currency_rupee </span>
+            <span class="js-product-price fs-5"><%= product.price %></span>
+          </span>
+        </div>
+        <p class="lead"><%= product.description %></p>
+        <div class="d-flex">
+          <% if (token) { %>
+            <button
+              class="btn btn-lg btn-outline-dark flex-shrink-0 d-flex justify-content-start align-items-center js-btn-add-to-cart"
+              type="button"
+              data-sku="<%= product.sku %>"
+              data-quantity="1"
+              data-stock="<%= product.stocks %>"
+              data-product-name="<%= product.name %>"
+            >
+          <% } else { %>
+            <a href="/login?redirect=/p/<%= product.sku %>" class="btn btn-lg btn-outline-dark flex-shrink-0 d-flex justify-content-start align-items-center">
+          <% } %>
+              <span class="material-symbols-outlined me-1"> shopping_cart </span>
+              <span>Add to cart</span>
+          <% if (token) { %>
+            </button>
+          <% } else { %>
+            </a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const usertoken = "<%= token %>";
+</script>

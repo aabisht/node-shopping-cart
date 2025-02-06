@@ -3,6 +3,7 @@ import {
   addProduct,
   getProduct,
   getProducts,
+  updateProductStocks,
 } from "../controllers/productController.js";
 
 const router = expres.Router();
@@ -15,5 +16,8 @@ router.get("/:sku", getProduct);
 
 // Add a new product
 router.post("/", addProduct);
+
+// Update a product stock
+router.put("/", updateProductStocks);
 
 export default router;

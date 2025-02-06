@@ -6,7 +6,9 @@ export const getProducts = async (request, response) => {
   try {
     const pageNumber = request.query.page || 1;
     const products = await Product.find();
-    response.status(200).json(paginate(products, pageNumber, 10));
+    response
+      .status(200)
+      .json(paginate(products, pageNumber, process.env.PAGE_ITEMS));
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }
@@ -83,6 +85,45 @@ export const addProduct = async (request, response) => {
     response
       .status(200)
       .json({ message: "Product added successfully!", newProduct });
+  } catch (error) {
+    response.status(500).json({ message: "Internal Server Error", error });
+  }
+};
+
+// Update Product stocks
+export const updateProductStocks = async (request, response) => {
+  try {
+    let { sku, stocks } = request.body;
+
+    if (!sku)
+      return response
+        .status(400)
+        .json({ message: "SKU of a product is required." });
+    if (!stocks)
+      return response
+        .status(400)
+        .json({ message: "Stocks of a product is required." });
+    if (stocks < 0)
+      return response
+        .status(400)
+        .json({ message: "Stocks of a product cannot be in negative." });
+
+    const product = await Product.findOne({ sku });
+
+    console.log(product);
+
+    if (!product)
+      return response
+        .status(400)
+        .json({ message: `Product with SKU: ${sku} not available.` });
+
+    product.stocks = stocks;
+
+    await product.save();
+
+    response
+      .status(200)
+      .json({ message: "Product stock successfully updated", product });
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }

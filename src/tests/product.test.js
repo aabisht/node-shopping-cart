@@ -1,6 +1,7 @@
 import { connectTestDB, closeTestDB } from "./setup.js";
 import request from "supertest";
 import app from "../app.js"; // Import Express app
+import { server, io } from "../server.js";
 
 beforeAll(async () => {
   await connectTestDB();
@@ -8,6 +9,11 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await closeTestDB();
+
+  if (io) io.close();
+  if (server && server.close) {
+    server.close(() => console.log("Server closed"));
+  }
 });
 
 const productData = {

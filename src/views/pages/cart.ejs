@@ -1,0 +1,91 @@
+<section class="h-100 h-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col">
+        <div class="card">
+          <div class="card-body p-4">
+            <% if (cart.items.length > 0) { %>
+              <div class="row">
+                <div class="col-lg-7">
+                  <div
+                    class="d-flex justify-content-between align-items-center mb-4"
+                  >
+                    <div>
+                      <h1 class="display-6 fw-bolder">Shopping cart</h1>
+                      <h2 class="h6 text-secondary mb-0">
+                        You have <%= cart.items.length %> items in your cart
+                      </h2>
+                    </div>
+                  </div>
+                  <div>
+                    <% cart.items.forEach(item => { %>
+                      <div class="mb-3">
+                          <%- include('../components/cart-product', { item }) %>
+                      </div>
+                      <% }); %>
+                  </div>
+                </div>
+                <div class="col-lg-5">
+                  <div class="card bg-dark text-white rounded-3">
+                    <div class="card-body">
+                      <div
+                        class="d-flex justify-content-between align-items-center mb-4"
+                      >
+                        <h5 class="mb-0">Card details</h5>
+                        <span class="text-uppercase user-avatar"><%= cart.username.charAt(0) %></span>
+                      </div>
+
+                      <hr class="my-4" />
+
+                      <div class="d-flex justify-content-between">
+                        <p class="mb-2">Subtotal</p>
+                        <p class="mb-2">
+                          <span class="d-inline-flex align-items-center">
+                            <span class="material-symbols-outlined"> currency_rupee </span>
+                            <span class="js-subtotal-price">
+                              <%= cart.totalPrice %>
+                            </span>
+                          </span>
+                        </p>
+                      </div>
+
+                      <div class="d-flex justify-content-between">
+                        <p class="mb-2">Shipping</p>
+                        <p class="mb-2">
+                          <span class="d-inline-flex align-items-center">
+                            <span class="material-symbols-outlined"> currency_rupee </span>
+                            <span class="js-shipping-charges">
+                              <%= shippingCharges %>
+                            </span>
+                          </span>
+                        </p>
+                      </div>
+
+                      <div class="d-flex justify-content-between mb-4">
+                        <p class="mb-2">Total(Incl. taxes)</p>
+                        <p class="mb-2">
+                          <span class="d-inline-flex align-items-center">
+                            <span class="material-symbols-outlined"> currency_rupee </span>
+                            <span class="js-total-price">
+                              <%= cart.totalPrice + 100 %>
+                            </span>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% } else { %>
+              You have no prodct in cart
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const usertoken = "<%= token %>";
+</script>

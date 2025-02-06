@@ -14,9 +14,9 @@ export const getCart = async (request, response) => {
   try {
     const cart = await Cart.findOne({
       username: request.user.username,
-    }).populate("items.product");
+    });
 
-    response.json(cart || { items: [], totalPrice: 0 });
+    response.status(200).json(cart || { items: [], totalPrice: 0 });
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }
@@ -25,10 +25,13 @@ export const getCart = async (request, response) => {
 // Add Item to Cart
 export const addToCart = async (request, response) => {
   try {
-    const { productSKU, quantity } = request.body;
+    let { productSKU, quantity } = request.body;
+
+    quantity = Number(quantity);
 
     // Check for the cart linked to user.
-    let cart = await Cart.findOne({ user: request.user.username });
+    let cart = await Cart.findOne({ username: request.user.username });
+
     if (!cart) {
       cart = new Cart({
         username: request.user.username,
@@ -59,7 +62,7 @@ export const addToCart = async (request, response) => {
     // Emit cart update to all connected clients
     io.emit("cartUpdated", cart);
 
-    response.json(cart);
+    response.status(200).json(cart);
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }
@@ -69,10 +72,10 @@ export const addToCart = async (request, response) => {
 export const updateCart = async (request, response) => {
   try {
     const { quantity } = request.body;
-    const cart = await Cart.findOne({ user: request.user.username });
+    const cart = await Cart.findOne({ username: request.user.username });
 
     const item = cart.items.find(
-      (item) => item.productSKU === request.params.productSKU,
+      (item) => item.product.sku === request.params.productSKU,
     );
 
     if (!item)
@@ -86,7 +89,7 @@ export const updateCart = async (request, response) => {
     // Emit cart update to all connected clients
     io.emit("cartUpdated", cart);
 
-    response.json(cart);
+    response.status(200).json(cart);
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }
@@ -95,11 +98,12 @@ export const updateCart = async (request, response) => {
 //  Remove Item from Cart
 export const removeFromCart = async (request, response) => {
   try {
-    const cart = await Cart.findOne({ user: request.user.username });
+    const cart = await Cart.findOne({ username: request.user.username });
 
     cart.items = cart.items.filter(
-      (item) => item.productSKU === request.params.productSKU,
+      (item) => item.product.sku !== request.params.productSKU,
     );
+
     cart.totalPrice = getTotalPrice(cart.items);
 
     await cart.save();
@@ -107,7 +111,7 @@ export const removeFromCart = async (request, response) => {
     // Emit cart update to all connected clients
     io.emit("cartUpdated", cart);
 
-    response.json(cart);
+    response.status(200).json(cart);
   } catch (error) {
     response.status(500).json({ message: "Internal Server Error", error });
   }

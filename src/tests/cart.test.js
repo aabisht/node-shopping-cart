@@ -1,6 +1,7 @@
 import request from "supertest";
 import app from "../app.js";
 import { connectTestDB, closeTestDB } from "./setup.js";
+import { server, io } from "../server.js";
 
 let token;
 let productSKU;
@@ -45,6 +46,11 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await closeTestDB();
+
+  if (io) io.close();
+  if (server && server.close) {
+    server.close(() => console.log("Server closed"));
+  }
 });
 
 describe("Cart Management", () => {
@@ -54,11 +60,35 @@ describe("Cart Management", () => {
       .set("Authorization", `Bearer ${token}`)
       .send({ productSKU, quantity: 2 });
 
-    console.log(productSKU);
-
     expect(res.statusCode).toBe(200);
     expect(res.body.items.length).toBe(1);
     expect(res.body.items[0].quantity).toBe(2);
-    cartItemId = res.body.items[0]._id;
+  });
+
+  it("should get cart detail for a user", async () => {
+    await request(app)
+      .post("/api/cart/add")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ productSKU, quantity: 1 });
+
+    const res = await request(app)
+      .get("/api/cart/")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.statusCode).toBe(200);
+  });
+
+  it("should update cart for a user", async () => {
+    await request(app)
+      .post("/api/cart/add")
+      .set("Authorization", `Bearer ${token}`)
+      .send({ productSKU, quantity: 1 });
+
+    const res = await request(app)
+      .put(`/api/cart/update/${productSKU}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send({ quantity: 2 });
+
+    expect(res.statusCode).toBe(200);
   });
 });

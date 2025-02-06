@@ -4,7 +4,7 @@ const socket = (httpServer) => {
   const io = new Server(httpServer, {
     cors: {
       origin: "*",
-      method: ["GET", "POST"],
+      method: ["GET", "POST", "PUT", "DELETE"],
     },
   });
 

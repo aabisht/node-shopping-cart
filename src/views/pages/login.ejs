@@ -1,0 +1,56 @@
+<section>
+  <div class="container">
+    <div class="container-fluid authentication-container">
+      <div class="card shadow-sm mb-3">
+        <div class="card-body p-xl-4">
+          <h5 class="card-title text-center">Sign In</h5>
+          <form
+            action="/api/auth/login"
+            class="js-login-form"
+            method="POST"
+            autocomplete="off"
+            novalidate
+          >
+            <div class="mb-4">
+              <label for="userName" class="form-label">Username *</label>
+              <input
+                type="text"
+                class="form-control js-form-control-username"
+                id="userName"
+                name="username"
+                placeholder="Please enter a username"
+                autocomplete="off"
+                required
+              />
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="mb-4">
+              <label for="password" class="form-label">Password *</label>
+              <input
+                type="password"
+                class="form-control js-form-control-password"
+                id="password"
+                name="password"
+                placeholder="Please enter a pasword"
+                autocomplete="off"
+                required
+              />
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="">
+              <button type="submit" class="btn btn-outline-dark js-login-btn">
+                Login
+              </button>
+            </div>
+          </form>
+          <div class="mt-4">
+            <p class="mb-0">
+              Don't have an account?
+              <a href="/register" class="ml-2">Sign Up</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

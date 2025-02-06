@@ -1,0 +1,96 @@
+<section>
+  <div class="container">
+    <div class="container-fluid authentication-container">
+      <div class="card shadow-sm mb-3">
+        <div class="card-body p-xl-4">
+          <h5 class="card-title text-center">Sign Up</h5>
+          <form
+            action="/api/auth/register"
+            method="POST"
+            class="js-register-form"
+            autocomplete="off"
+            novalidate
+          >
+            <div class="mb-4">
+              <label for="firstName" class="form-label">First Name </label>
+              <input
+                type="text"
+                class="form-control js-form-control-firstName"
+                id="firstName"
+                name="firstName"
+                placeholder="Please enter a first name"
+                autocomplete="off"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="lastName" class="form-label">Last Name </label>
+              <input
+                type="text"
+                class="form-control js-form-control-lastName"
+                id="lastName"
+                name="lastName"
+                placeholder="Please enter a last name"
+                autocomplete="off"
+              />
+            </div>
+            <div class="mb-4">
+              <label for="userName" class="form-label">Username *</label>
+              <input
+                type="text"
+                class="form-control js-form-control-username"
+                id="userName"
+                name="username"
+                placeholder="Please enter a username"
+                autocomplete="off"
+                required
+              />
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="mb-4">
+              <label for="email" class="form-label">Email *</label>
+              <input
+                type="text"
+                class="form-control js-form-control-email"
+                id="email"
+                name="email"
+                placeholder="Please enter a email"
+                autocomplete="off"
+                required
+              />
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="mb-4">
+              <label for="password" class="form-label">Password *</label>
+              <input
+                type="password"
+                class="form-control js-form-control-password"
+                id="password"
+                name="password"
+                placeholder="Please enter a pasword"
+                autocomplete="off"
+                required
+              />
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="d-grid gap-2">
+              <button
+                type="submit"
+                class="btn btn-outline-dark js-register-btn"
+              >
+                Register
+              </button>
+              <a href="/login" class="text-center">Login</a>
+            </div>
+          </form>
+          <div
+            class="alert alert-success mt-3 mb-0 d-none js-registration-success-alert"
+            role="alert"
+          >
+            <span class="js-text"></span> Please visit
+            <a href="/login">login</a> page to sign-in.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

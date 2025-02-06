@@ -1,0 +1,38 @@
+<header class="bg-dark py-5">
+  <div class="container my-5">
+      <div class="text-center text-white">
+          <h1 class="display-4 fw-bolder">Shop in style</h1>
+          <p class="lead fw-normal text-white-50 mb-0">With this Product Shop</p>
+      </div>
+  </div>
+</header>
+<section class="py-5">
+  <div class="container mt-5">
+    <div
+      class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center product-row js-product-row"
+    >
+        <% productData.items.forEach(product => { %>
+        <div class="col mb-3 product-col js-product-col">
+            <%- include('../components/product-card', { product }) %>
+        </div>
+        <% }); %>
+    </div>
+  </div>
+</section>
+<% if(productData.totalPages > 1) { %>
+<div>
+  <div class="container">
+    <div class="text-center">
+      <button type="button" class="btn btn-dark js-load-more">Load More</button>
+    </div>
+  </div>
+</div>
+<% } %>
+
+<script>
+  const productsData = {
+      currentPage: 1,
+      totalPages: <%= productData.totalPages %>,
+  };
+  const usertoken = "<%= token %>";
+</script>

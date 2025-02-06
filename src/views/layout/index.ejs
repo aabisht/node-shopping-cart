@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <%- include('../components/head') %>
+  <body>
+    <div class="d-flex flex-column h-100">
+      <div class="header-wrapper">
+        <%- include(`../components/header`) %>
+      </div>
+      <div class="body-wrapper d-flex flex-column justify-content-center pb-5">
+        <%- include(`../pages/${template}`) %>
+      </div>
+      <div class="footer-wrapper">
+        <%- include(`../components/footer`) %>
+      </div>
+    </div>
+    <%- include(`../components/toasts`) %>
+    <%- include(`../components/script`) %>
+    <% if (pageScript) { %>
+      <%- include(`../components/page-script/${pageScript}`)  %>
+    <% } %>
+  </body>
+</html>

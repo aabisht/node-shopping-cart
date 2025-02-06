@@ -1,0 +1,83 @@
+<div class="card">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start">
+      <div class="d-flex flex-row align-items-center">
+        <div class="align-self-start">
+          <a
+            href="/p/<%= item.product.sku %>"
+            class="d-block text-decoration-none"
+            style="width: 65px"
+          >
+            <img
+              src="<%= item.product.image %>"
+              alt="<%= item.product.name %>"
+              class="img-fluid rounded-3"
+              width="65"
+              height="71"
+            />
+          </a>
+        </div>
+        <div class="ms-3 pe-2">
+          <h5 class="mb-1">
+            <a
+              href="/p/<%= item.product.sku %>"
+              class="text-decoration-none"
+              style="width: 65px"
+            >
+              <%= item.product.name.split(' - ')[1] %>
+            </a>
+          </h5>
+          <p class="small mb-1"><%= item.product.name.split(' - ')[0] %></p>
+          <p class="h5 mb-0">
+            <span class="d-inline-flex align-items-center price-wrapper">
+              <span class="material-symbols-outlined"> currency_rupee </span>
+              <span class="js-product-price">
+                <%= item.product.price*item.quantity %>
+              </span>
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="d-flex flex-row align-items-center">
+        <div class="input-group qty-wrapper js-qty-wrapper">
+          <span class="input-group-btn">
+            <button
+              type="button"
+              class="quantity-minus btn btn-danger btn-number js-quantity-minus"
+              data-type="minus"
+              data-field=""
+            >
+              <span class="material-symbols-outlined"> remove </span>
+            </button>
+          </span>
+          <input
+            type="text"
+            name="quantity"
+            class="form-control js-input-qty"
+            value="<%= item.quantity %>"
+            min="1"
+            max="<%= item.product.stocks %>"
+            data-product-sku="<%= item.product.sku %>"
+          />
+          <span class="input-group-btn">
+            <button
+              type="button"
+              class="quantity-plus btn btn-success btn-number js-quantity-plus"
+              data-type="plus"
+              data-field=""
+            >
+              <span class="material-symbols-outlined"> add </span>
+            </button>
+          </span>
+        </div>
+        <button
+          type="button"
+          class="text-secondary btn btn-link d-inline-flex justify-content-center align-items-center text-decoration-none js-delete-product"
+          data-product-sku="<%= item.product.sku %>"
+        >
+          <span class="material-symbols-outlined"> delete </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,7 @@ const cartSchema = new mongoose.Schema(
       type: String,
       ref: "User",
       required: [true, "Username is required"],
+      unique: [true, "Username should be unique"],
     },
     items: [
       {
@@ -18,7 +19,6 @@ const cartSchema = new mongoose.Schema(
           sku: {
             type: String,
             require: [true, "Product sku code is required"],
-            unique: [true, "Product sku code should be unique"],
           },
           name: { type: String, require: [true, "Product name is required"] },
           image: { type: String, require: [true, "Product image is required"] },

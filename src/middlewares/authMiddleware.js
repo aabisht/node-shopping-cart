@@ -1,6 +1,10 @@
 import jwt from "jsonwebtoken";
 
-const authMiddleware = (request, response, next) => {
+export const setRequestUser = (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET);
+};
+
+export const authMiddlewareAPI = (request, response, next) => {
   // Expect "Bearer <token>"
   const token = request.header("Authorization")?.split(" ")[1];
 
@@ -11,7 +15,7 @@ const authMiddleware = (request, response, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = setRequestUser(token);
     request.user = decoded;
     next();
   } catch (error) {
@@ -20,5 +24,3 @@ const authMiddleware = (request, response, next) => {
       .json({ message: "Invalid or expired token.", error });
   }
 };
-
-export default authMiddleware;

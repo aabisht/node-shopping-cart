@@ -68,6 +68,8 @@ export const loginUser = async (request, response) => {
     }
 
     const token = generateToken(user);
+    // Store token in session
+    request.session.token = token;
 
     response.status(200).json({ message: "Login Successful", token });
   } catch (error) {

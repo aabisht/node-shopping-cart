@@ -1,0 +1,47 @@
+<div class="product-card card h-100">
+  <a href="/p/<%= product.sku %>" class="d-block border-bottom js-product-link">
+    <div
+      class="badge bg-dark text-white position-absolute text-capitalize js-product-category"
+      style="top: 0.5rem; right: 0.5rem"
+    >
+      <%= product.category %>
+    </div>
+    <img
+      class="card-img-top img-fluid js-product-img"
+      src="<%= product.image %>"
+      alt="<%= product.name %>"
+      width="268"
+      height="357"
+    />
+  </a>
+  <div class="card-body p-4">
+    <a href="/p/<%= product.sku %>" class="d-block js-product-link">
+      <h5 class="card-title js-product-title"><%= product.name.split(' - ')[1] %></h5>
+      <h6 class="card-subtitle mb-2 text-body-secondary js-product-subtitle">
+        <%= product.name.split(' - ')[0] %>
+      </h6>
+      <p class="card-text mb-0">
+        <span class="d-inline-flex align-items-center price-wrapper">
+          <span class="material-symbols-outlined"> currency_rupee </span>
+          <span class="js-product-price"><%= product.price %></span>
+        </span>
+      </p>
+    </a>
+  </div>
+  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+    <% if (token) { %>
+      <button
+        class="btn btn-outline-dark mt-auto js-btn-add-to-cart"
+        type="button"
+        data-sku="<%= product.sku %>"
+        data-quantity="1"
+        data-stock="<%= product.stocks %>"
+        data-product-name="<%= product.name %>"
+      >
+        Add to cart
+      </button>
+    <% } else { %>
+      <a class="btn btn-outline-dark mt-auto js-btn-add-to-cart-link" href="/login?redirect=/p/<%= product.sku %>">Add to cart</a>
+    <% } %>
+  </div>
+</div>
