@@ -2,8 +2,6 @@
 
 This is a **Node.js** shopping cart application with **user authentication, cart management, persistent storage using MongoDB, and real-time updates via WebSockets**. The frontend is built using **EJS templates**.
 
----
-
 ## Features
 
 **User Authentication** (JWT-based registration & login)  
@@ -14,8 +12,6 @@ This is a **Node.js** shopping cart application with **user authentication, cart
 **Secure API Routes** (Protected endpoints using authentication middleware)  
 **Frontend UI** (EJS templates for user interaction)  
 **Unit Tests** (Jest & Supertest for testing API routes)
-
----
 
 ## Getting Started
 
@@ -71,8 +67,6 @@ npm run dev
 http://localhost:3000
 ```
 
----
-
 ## API Endpoints
 
 ### Authentication Routes
@@ -99,8 +93,6 @@ http://localhost:3000
 | `DELETE` | `/api/cart/remove/:sku` | Remove an item from the cart                  |
 | `GET`    | `/api/cart`             | Get the user's cart                           |
 
----
-
 ## Testing
 
 **Run Jest tests**
@@ -109,9 +101,7 @@ http://localhost:3000
 npm run test
 ```
 
----
-
-## 📌 Folder Structure
+## Folder Structure
 
 ```
 node-shopping-cart/
@@ -132,8 +122,6 @@ node-shopping-cart/
 │-- README.md             # Documentation
 ```
 
----
-
 ## Technologies Used
 
 - **Backend:** Node.js, Express.js
@@ -144,9 +132,7 @@ node-shopping-cart/
 - **Testing:** Jest, Supertest
 - **API Client:** Postman
 
----
-
 ## Contributors
 
-👤 **Arun Bisht** – _Developer_  
-🔗 **GitHub:** [aabisht](https://github.com/aabisht)
+**Arun Bisht** – _Developer_  
+**GitHub:** [aabisht](https://github.com/aabisht)
